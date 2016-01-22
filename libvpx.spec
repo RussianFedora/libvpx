@@ -160,6 +160,9 @@ mv usr/bin/twopass_encoder usr/bin/vp8_twopass_encoder
 chmod 755 usr/bin/*
 popd
 
+# fix https://code.google.com/p/chromium/issues/detail?id=575651
+install -m644 vpx/svc_context.h %{buildroot}%{_includedir}/vpx/
+
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
@@ -179,6 +182,10 @@ popd
 %{_bindir}/*
 
 %changelog
+* Thu Jan 22 2016 Arkady L. Shane <ashejn@russianfedora.pro> - 1.5.0-1.R
+- copy svc_context.h to devel package to fix
+  https://code.google.com/p/chromium/issues/detail?id=575651
+
 * Tue Dec  1 2015 Tom Callaway <spot@fedoraproject.org> - 1.5.0-1
 - update to 1.5.0
 
