@@ -6,7 +6,7 @@
 Name:			libvpx
 Summary:		VP8 Video Codec SDK
 Version:		1.5.0
-Release:		1%{?dist}
+Release:		2%{?dist}
 License:		BSD
 Group:			System Environment/Libraries
 Source0:		http://downloads.webmproject.org/releases/webm/%{name}-%{version}.tar.bz2
@@ -182,6 +182,9 @@ install -m644 vpx/svc_context.h %{buildroot}%{_includedir}/vpx/
 %{_bindir}/*
 
 %changelog
+* Wed Feb 17 2016 Arkady L. Shane <ashejn@russianfedora.pro> - 1.5.0-2.R
+- rebuilt
+
 * Thu Jan 22 2016 Arkady L. Shane <ashejn@russianfedora.pro> - 1.5.0-1.R
 - copy svc_context.h to devel package to fix
   https://code.google.com/p/chromium/issues/detail?id=575651
