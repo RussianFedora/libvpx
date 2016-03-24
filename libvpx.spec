@@ -6,7 +6,7 @@
 Name:			libvpx
 Summary:		VP8 Video Codec SDK
 Version:		1.5.0
-Release:		2%{?dist}
+Release:		4%{?dist}
 License:		BSD
 Group:			System Environment/Libraries
 Source0:		http://downloads.webmproject.org/releases/webm/%{name}-%{version}.tar.bz2
@@ -76,6 +76,9 @@ CROSS=armv7hl-redhat-linux-gnueabi- CHOST=armv7hl-redhat-linux-gnueabi-hardfloat
 --disable-neon --disable-neon_asm \
 %endif
 --enable-pic --disable-install-srcs \
+--enable-vp9-decoder --enable-vp9-encoder \
+--enable-vp10-decoder --enable-vp10-encoder \
+--enable-experimental --enable-spatial-svc \
 %if ! %{generic_target}
 --enable-shared \
 %endif
@@ -182,6 +185,9 @@ install -m644 vpx/svc_context.h %{buildroot}%{_includedir}/vpx/
 %{_bindir}/*
 
 %changelog
+* Tue Mar  8 2016 Tom Callaway <spot@fedoraproject.org> - 1.5.0-3.R
+- enable-experimental and enable-spatial-svc
+
 * Wed Feb 17 2016 Arkady L. Shane <ashejn@russianfedora.pro> - 1.5.0-2.R
 - rebuilt
 
