@@ -59,10 +59,14 @@ and decoder.
 %endif
 %endif
 
-# The configure script will reject the shared flag on the generic target
-# This means we need to fall back to the manual creation we did before. :P
+# History: The configure script used to reject the shared flag on the generic target.
+# This meant that we needed to fall back to manual shared lib creation.
+# However, the modern configure script permits the shared flag and assumes ELF.
+# Additionally, the libvpx.ver would need to be updated to work properly.
+# As a result, we disable this universally, but keep it around in case we ever need to support
+# something "special".
 %if "%{vpxtarget}" == "generic-gnu"
-%global generic_target 1
+%global generic_target 0
 %else
 %global	generic_target 0
 %endif
@@ -106,8 +110,9 @@ sed -i "s|NM=armv7hl-redhat-linux-gnueabi-nm|NM=nm|g" docs-%{vpxtarget}.mk
 
 make %{?_smp_mflags} verbose=true
 
-%if %{generic_target}
 # Manual shared library creation
+# We should never need to do this anymore, and if we do, we need to fix the version-script.
+%if %{generic_target}
 mkdir tmp
 cd tmp
 ar x ../libvpx_g.a
@@ -138,6 +143,7 @@ if [ -d %{buildroot}/usr/docs ]; then
    mv %{buildroot}/usr/docs doc/
 fi
 
+# Again, we should never need to do this anymore.
 %if %{generic_target}
 install -p libvpx.so.%{soversion} %{buildroot}%{_libdir}
 pushd %{buildroot}%{_libdir}
@@ -185,6 +191,9 @@ install -m644 vpx/svc_context.h %{buildroot}%{_includedir}/vpx/
 %{_bindir}/*
 
 %changelog
+* Wed Mar 16 2016 Tom Callaway <spot@fedoraproject.org> - 1.5.0-4.R
+- disable generic_target conditional universally (bz1311125)
+
 * Tue Mar  8 2016 Tom Callaway <spot@fedoraproject.org> - 1.5.0-3.R
 - enable-experimental and enable-spatial-svc
 
